@@ -23,6 +23,18 @@ pipeline {
                 }
             }
         }
+        stage('Install Trivy') {
+    steps {
+        sh '''
+            sudo apt-get update
+            sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+            wget -O - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy-archive-keyring.gpg
+            echo "deb [signed-by=/usr/share/keyrings/trivy-archive-keyring.gpg] https://aquasecurity.github.io/trivy-repo/deb stable main" | sudo tee /etc/apt/sources.list.d/trivy.list
+            sudo apt-get update
+            sudo apt-get install trivy -y
+        '''
+    }
+}
         stage('Scan Docker Image with Trivy') {
             steps {
                 // Scan and save report
