@@ -23,8 +23,7 @@ pipeline {
                 }
             }
         }
-    }
-    stage('Scan Docker Image with Trivy') {
+        stage('Scan Docker Image with Trivy') {
             steps {
                 // Scan and save report
                 sh '''
@@ -40,6 +39,7 @@ pipeline {
                 archiveArtifacts artifacts: 'trivy-reports/report.txt', fingerprint: true
             }
         }
+    }
  
     post {
         success {
