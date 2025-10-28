@@ -2,8 +2,12 @@ pipeline {
     agent {
         label 'anish-ubuntu-a'
     }
+    triggers {
+    pollSCM('H/3 * * * *') // checks every 3 mins, or
+    // OR use GitHub webhook instead (recommended)
+    }
     environment {
-        DOCKERHUB_USER = 'anishcloudlab'
+        DOCKERHUB_USER = 'yourname'
         IMAGE_NAME = 'jenkins-docker-lab'
     }
     stages {
@@ -33,14 +37,12 @@ pipeline {
                 '''
             }
         }
- 
         stage('Archive Trivy Report') {
             steps {
                 archiveArtifacts artifacts: 'trivy-reports/report.txt', fingerprint: true
             }
         }
     }
- 
     post {
         success {
             echo 'Pipeline completed successfully!'
@@ -50,4 +52,3 @@ pipeline {
         }
     }
 }
- 
