@@ -7,7 +7,7 @@ pipeline {
     // OR use GitHub webhook instead (recommended)
     }
     environment {
-        DOCKERHUB_USER = 'yourname'
+        DOCKERHUB_USER = 'anish'
         IMAGE_NAME = 'jenkins-docker-lab'
     }
     stages {
